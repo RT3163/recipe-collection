@@ -34,4 +34,29 @@ describe("Home page", () => {
         }) 
       }) 
     })
+
+    it("displays multiple recipes names under the 'My Recipes' heading", () => {
+      const addRecipeButton = cy.get('#add-recipe')
+      addRecipeButton.click().then(() => {
+        cy.get('input[name="newRecipeName"]').type("Cereal")
+        cy.get('textarea[name="newRecipeInstructions"]').type("1. Pour Milk Duh!")
+        cy.get('input[type="submit"]').click()
+
+        cy.get('input[name="newRecipeName"]').clear()
+        cy.get('textarea[name="newRecipeInstructions"]').clear()
+
+
+        cy.get('input[name="newRecipeName"]').type("Pancakes")
+        cy.get('textarea[name="newRecipeInstructions"]').type("1. Make Batter 2. Burn Pancake")
+        cy.get('input[type="submit"]').click()
+        
+        cy.get('ul').then(() => { 
+          cy.get('ul').contains("Cereal")
+        }) 
+
+        cy.get('ul').then(() => { 
+          cy.get('ul').contains("Pancakes")
+        }) 
+      })
+    })
   })

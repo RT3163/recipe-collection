@@ -22,14 +22,10 @@ class App extends React.Component {
   }
 
   submitRecipe = (event) => {
-     event.preventDefault()
-      this.setState({recipes: [
-        {
-          name: this.state.newRecipeName,
-          instructions: this.state.newRecipeInstructions
-        }
-      ]
-    })
+    event.preventDefault()
+    let newRecipe = { name: this.state.newRecipeName, instructions :this.state.newRecipeInstructions }
+    let newList = this.state.recipes.concat(newRecipe)
+    this.setState({recipes: newList})
   }
 
   render() {
@@ -50,18 +46,19 @@ class App extends React.Component {
       <div className="App">
         <h1 className="App-header">My Recipes</h1>
         {
-            this.state.isAddRecipeFormDisplayed 
+           this.state.isAddRecipeFormDisplayed 
             ? addNewRecipeForm 
-            : <button id="add-recipe" onClick={this.toggleAddRecipeForm}>Add Recipe</button>
-        }
-        {
-          this.state.recipes.length > 0 ?
-          <ul>
-            <li>{ this.state.recipes[0].name }</li>
-          </ul> :
-         <p>There are no recipes to list.</p>
-       }
-     </div>
+          : <button id="add-recipe" onClick={this.toggleAddRecipeForm}>Add Recipe</button>
+    }
+    {
+      this.state.recipes.length > 0 ?
+      <ul>
+        {this.state.recipes.map(recipe => 
+          <li>{recipe.name}</li> )}
+      </ul> :
+      <p>There are no recipes to list.</p>
+    }
+  </div>
     )
   }
 }
